@@ -24,8 +24,8 @@ Basic instructions for Ubuntu 20.04
 
   Make sure that /bin/sh points to /bin/bash.
   Under /bin folder,
-      rm sh
-      ln -s bash sh
+     	%  rm sh
+	% ln -s bash sh
 
   Install any host tools needed
 	- make, gcc, etc.  (build-essential)
