@@ -4,6 +4,8 @@ The Basic Idea behind starting this is to be able to build the firmware for the 
 
 
 Firmware for Commscope NVG578 taken from https://sourceforge.net/arris/nvg578/
+
+About NVG578HLX
 ==============================================================================
 
 The NVG578LX is a cost-effective gateway for the GPON passive optical networking standard to deliver managed voice, video, data services with up to 2.5Gb/s symmetrical broadband.
