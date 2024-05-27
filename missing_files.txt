@@ -1,0 +1,14 @@
+missing files on github
+
+
+remote: error: Trace: d4e42ab321a4c543a7024bc465aa7faa086890ce6af52ba75532be91d85e7c68
+remote: error: See https://gh.io/lfs for more information.
+remote: error: File nvg578.9.5.0h4/bcm963xx/bcm963xx_5.02L.07p2_consumer.tar.gz is 310.14 MB; this exceeds GitHub's file size limit of 100.00 MB
+remote: error: File nvg578.9.5.0h4/cscope.out is 469.12 MB; this exceeds GitHub's file size limit of 100.00 MB
+remote: error: File nvg578.9.5.0h4/tags is 343.71 MB; this exceeds GitHub's file size limit of 100.00 M
+remote: error: File nvg578.9.5.0h4/toolchains/QEnvInstaller-v1.1.bin is 326.32 MB; this exceeds GitHub's file size limit of 100.00 MB
+remote: error: File nvg578.9.5.0h4/bcm963xx/bcm963xx_5.02L.07p2_consumer_release.tar.gz is 309.60 MB; this exceeds GitHub's file size limit of 100.00 MB
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+To github-nvg578:HimanshuSourav/Arris_NVG578xFirmware.git
+ ! [remote rejected]   main -> main (pre-receive hook declined)
+error: failed to push some refs to 'git@github-nvg578
