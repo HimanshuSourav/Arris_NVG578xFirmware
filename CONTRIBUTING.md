@@ -24,7 +24,7 @@ Edits under `nvg578.9.5.0h4/axis/broadcom/` **do not survive** the next vendor `
 
 - **Hardening** of in-tree init, inetd, firewall, guest isolation, OpenSSL *config* (not a silent major upgrade).
 - **Profile / build flags** that remove unused surface (Docker, debug tools) with evidence from a built `fs.install`.
-- **CVE mapping** that names version + compile flags + whether we are actually affected.
+- **CVE mapping** that names version + compile flags + whether we are actually affected. Start from [docs/intern/versions.md](docs/intern/versions.md); do not treat every NVD hit as proven on this box.
 - **Docs** that correct the map (paths, flags, missing source).
 
 ## Change types we reject or delay
