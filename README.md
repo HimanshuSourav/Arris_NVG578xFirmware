@@ -2,8 +2,17 @@
 
 The Basic Idea behind starting this is to be able to build the firmware for the ziply provided router and tinker with it.
 
+Firmware for Commscope NVG578 taken from https://sourceforge.net/projects/nvg578.arris/
 
-Firmware for Commscope NVG578 taken from https://sourceforge.net/arris/nvg578/
+The GitHub tree cannot contain the ~760MB SourceForge release (GitHub’s 100MB file limit). Fetch it locally, then build:
+
+```
+./scripts/fetch-source.sh
+./scripts/setup-host.sh
+./scripts/build-nvg578.sh NVG578LX_AX
+```
+
+`setup-host.sh` covers Ubuntu 24.04 extras the vendor README does not: `xxd`, libncurses5 compatibility packages, Perl 5.22.1 via perlbrew, and a host `gcc` wrapper (`-fgnu89-inline -fcommon`) so squashfs-tools 4.2 links on modern GCC.
 
 About NVG578HLX
 ==============================================================================
