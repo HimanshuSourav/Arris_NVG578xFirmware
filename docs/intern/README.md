@@ -80,7 +80,7 @@ That is more useful than “the firmware looks insecure.”
 | --- | --- |
 | [architecture.md](architecture.md) | Tree, build pipeline, profile flags, what to edit |
 | [security.md](security.md) | Threat model, surfaces, starter tickets |
-| [versions.md](versions.md) | 9.5.0h4 identity, library ages, missing CVE fixes |
+| [versions.md](versions.md) | 9.5.0h4 identity, why only one OSS dump, library ages, missing CVE fixes |
 | [pr-checklist.md](pr-checklist.md) | Before you open a firmware PR |
 | [findings/](findings/) | Evidence notes (no secrets) |
 | [CONTRIBUTING.md](../../CONTRIBUTING.md) | What we merge |

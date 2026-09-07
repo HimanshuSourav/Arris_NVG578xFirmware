@@ -17,6 +17,30 @@ Checked against the tree on **2026-09-07**. Re-verify versions in `opensslv.h`, 
 
 This GitHub repo does not contain a newer vendor tree. If SourceForge later adds `nvg578.9.5.0h5` (or similar), this page is stale until someone updates it.
 
+### Why only one public drop?
+
+**They did not use SourceForge as an update feed.** The [project home](https://sourceforge.net/arris/nvg578/home/Home/) says CommScope is providing “the open source software used in” the gateway, and that the site is **not** an SDK or general developer support. That is a **GPL/open-source compliance dump**, not “Arris Linux” in the OpenWrt sense.
+
+Three different pipelines, often confused:
+
+| Channel | Who it is for | What actually happens |
+| --- | --- | --- |
+| **ISP firmware** | Ziply / YouFibre subscribers | Images go box ← ACS / OMCI / TR-069. Version strings can move (`9.5.0h4d134_…`) with **no** new SourceForge tarball. |
+| **GPL corresponding source** | Anyone who received GPL binaries | Vendors must offer the source that built **those** GPL pieces (BusyBox, dnsmasq, kernel, …). Motopia UI, Wi-Fi blobs, Runner, and most management daemons are **proprietary** and are not required on SourceForge. |
+| **Community development** | Hobbyists / this GitHub repo | Explicitly **not** offered. Missing `webui` / Dropbear trees in the tarball is consistent with an incomplete dump, not with a living git project. |
+
+So a single `nvg578.9.5.0h4.tar.gz` on **2022-08-10** does **not** mean “no firmware shipped after that.” It means **no second public OSS archive** was posted there.
+
+Why later archives often never appear (what we can show vs what we infer):
+
+1. **Launch dump, then silence.** Older Arris gateways *sometimes* got multiple OSS folders when the **GPL** bits changed (example: [NVG510 news](https://sourceforge.net/arris/nvg510/news/) and [NVG589/599 files](https://sourceforge.net/projects/nvg599.arris/files/) with several `9.x` / `11.x` tarballs). NVG578’s SourceForge project was **registered the same day** as this one file and never gained a second. That is a process choice, not proof that 9.5.0h4 was the last binary Ziply ever pushed.
+2. **Later ISP builds may only have changed closed code.** If `h4d134` is Motopia/ISP branding, certificates, or ACS settings, the vendor can tell themselves the **GPL corresponding source is still 9.5.0h4**. Whether that is legally enough if they also patched BusyBox/OpenSSL is a compliance question, not something this tarball answers. GPL enforcement texts say **each distributed binary version** should have matching source; many CPE vendors lag or skip that in practice.
+3. **The customer is the ISP, not GitHub.** Security and feature updates are sold as managed CPE. Publishing a rebuildable tree that matches the shipped image competes with that model (and with Broadcom NDA pieces). The home page already disclaims developer support.
+4. **The product line changed owners.** Home Networks moved **Arris → CommScope → Vantiva** (Vantiva closed the CommScope Home Networks deal **9 Jan 2024**). The SourceForge “Arris” account still hosts the 2022 files; a 2025 forum note treats it as effectively archived and points at [Vantiva regulatory information](https://www.vantiva.com/regulatory-information/). New dumps, if any, might land there (or only on written request), not as `nvg578.9.5.0h5` on the old project.
+5. **We do not have a vendor quote that says “we will never post again.”** Treat “one tarball” as **observed**. A written offer of source (GPL’s other option) can also exist without a public files tab. If you need corresponding source for a **specific** ISP image, ask Ziply/Vantiva for that version — do not assume this 2022 tree is it.
+
+Intern takeaway: work on **this** drop because it is what we can build and patch. Do not wait for a vendor “9.5.1 security refresh” on SourceForge. Do not assume Ziply boxes are bit-identical to a `./build` of this tarball.
+
 ### OSS drop vs what Ziply may be running
 
 ISP units have been reported with a **later build of the same 9.5.0h4 line** (example seen in the wild: `9.5.0h4d134_YouFibre`). Those extra letters are ISP packaging. They are **not** a second public source tree.
