@@ -12,7 +12,7 @@ This page is the map. Keep it open while you browse the tree.
                       └── Management: local web UI (Motopia) + OMCI/TR-069 from ISP
 ```
 
-Linux on the box is **4.1.x** (Broadcom-patched), userspace is a mix of BusyBox, GPL daemons, Broadcom libraries, and Arris Motopia (partially missing in this release).
+Linux on the box is **4.1.52** (Broadcom-patched). Userspace is a mix of BusyBox, GPL daemons, Broadcom libraries, and Arris Motopia (partially missing in this release). The public drop is firmware **9.5.0h4** on SDK **5.02L.07p2** — still the right generation for this SKU’s GPON/Wi-Fi 6 role; the bundled libraries are far behind upstream. Details: [versions.md](versions.md).
 
 ## Repository vs firmware tree
 

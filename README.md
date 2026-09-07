@@ -8,7 +8,7 @@ Firmware for CommScope NVG578 taken from https://sourceforge.net/projects/nvg578
 
 Start here: **[docs/intern/README.md](docs/intern/README.md)**
 
-That guide is security-focused: product layout, what `./build` wipes, which attack surfaces are actually in this OSS drop, and starter tickets (TLS init, inetd, guest isolation, outdated libraries). Then read [CONTRIBUTING.md](CONTRIBUTING.md) before sending a patch.
+That guide is security-focused: product layout, what `./build` wipes, which attack surfaces are actually in this OSS drop, [release version and missing CVE fixes](docs/intern/versions.md), and starter tickets (TLS init, inetd, guest isolation, outdated libraries). Then read [CONTRIBUTING.md](CONTRIBUTING.md) before sending a patch.
 
 The GitHub tree cannot contain the ~760 MB SourceForge release. Fetch it locally (see the intern guide). Do not commit `nvg578.9.5.0h4/` or the tarball.
 

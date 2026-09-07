@@ -2,7 +2,7 @@
 
 Drop write-ups here when a starter ticket produces **evidence**, not guesses.
 
-Examples: image inventory (setuid, listeners, whether `dropbear`/`docker`/`muhttpd` are on `fs.install`), OpenSSL CVE spreadsheet notes, OMCI-auth residual risk.
+Examples: image inventory (setuid, listeners, whether `dropbear`/`docker`/`muhttpd` are on `fs.install`), OpenSSL/dnsmasq CVE spreadsheet notes (start from [versions.md](../versions.md)), OMCI-auth residual risk.
 
 - Do not commit keys, ISP credentials, customer packet dumps, or GPON passwords.
 - Name files after the ticket (`image-inventory.md`, `ssl-sh-notes.md`).

@@ -91,19 +91,22 @@ You will not “fix OMCI” in a weekend. You **can**:
 
 ### 7. Outdated libraries you can name in a CVE pass
 
-Confirm versions in-tree (or on a built rootfs) before filing anything public.
+The product release is **9.5.0h4** (OSS tarball 2022-08-10, Broadcom SDK **5.02L.07p2**). Day-to-day GPON/Wi-Fi/NAT still matches this SKU; **bundled GPL/crypto/kernel are years behind upstream**. Full inventory, ISP vs OSS caveat, and named missing CVEs: **[versions.md](versions.md)**.
+
+Confirm versions in-tree (or on a built rootfs) before filing anything public. Short list:
 
 | Component | Typical version here | Notes |
 | --- | --- | --- |
-| OpenSSL | 1.1.1b | EOL |
+| OpenSSL | 1.1.1b | EOL; last public 1.1.1 was 1.1.1w |
 | PCRE | 8.32 | `userspace/gpl/libs/pcre-8.32/` |
-| Linux | 4.1.52 | Broadcom fork; not a simple mainline bump |
-| BusyBox | 1.30.x | Under `userspace/gpl/apps/busybox/` |
-| dnsmasq | 2.79 | DHCP/DNS — classic CVE magnet |
-| Dropbear | 2016.74 | If present on image |
-| iptables | 1.6.2 + Arris patch | |
+| Linux | 4.1.52 | Broadcom fork; 4.1 EOL since 2018 |
+| BusyBox | 1.30.1 | Under `userspace/gpl/apps/busybox/` |
+| dnsmasq | 2.79 | Predates DNSpoq (2.83) and later DNSSEC limits |
+| zlib | 1.2.7 | Predates CVE-2018-25032 / CVE-2022-37434 |
+| Dropbear | 2016.74 | Make target; directory often **absent** — confirm on image |
+| iptables | 1.6.2 + Arris patch | Patch filename still says 1.4.16.3 |
 
-Kernel and Wi-Fi blobs (`bcmdrivers/broadcom/net/wl/`) are **not** intern starter upgrades.
+Kernel and Wi-Fi blobs (`bcmdrivers/broadcom/net/wl/`) are **not** intern starter upgrades. Missing a CVE in NVD ≠ proven remote-root; see [versions.md#reachability-not-every-cve-is-on-the-box](versions.md#reachability-not-every-cve-is-on-the-box).
 
 ### 8. Debug and leftover attack surface
 
@@ -128,7 +131,7 @@ Each ticket should end in: **repro notes**, **files touched**, **how you tested*
 2. **`ssl.sh` hardening.** Tighter permissions, don’t reuse HTTPS key for SSH if dropbear is present, shorter default validity, don’t use a joke DN in production. Keep it boot-safe if `/data` is missing.
 3. **inetd config audit.** Trace default `inetd.conf` in `targets/fs.src` / Arris overlays. Propose disabling unused services.
 4. **Guest isolation.** Read `qevt_client.c` guest/ebtables paths. Document intended vs actual isolation; add a regression checklist (guest cannot hit `192.168.x.1:443` unless a named feature is on).
-5. **OpenSSL 1.1.1b CVE mapping.** Spreadsheet: CVE id, whether the disabled algorithm means we are unaffected, leftover risk (e.g. TLS 1.0). No silent “upgrade” without a build.
+5. **OpenSSL 1.1.1b CVE mapping.** Start from [versions.md](versions.md). Spreadsheet: CVE id, whether Motopia compile flags mean we are unaffected, leftover risk (e.g. TLS 1.0). Write `docs/intern/findings/openssl-cve-map.md`. No silent “upgrade” without a build.
 6. **OMCI auth flag.** Research what `BUILD_OMCI_AUTH` needs; if it cannot be enabled without ISP support, document why and which LAN mitigations still matter.
 7. **Docker off for Ziply.** If `fs.install` has no docker runtime, flip `CONFIG_MOTOPIA_DOCKER` and record kernel option deltas from `91arris.conf`.
 8. **PCRE / dnsmasq version bump (GPL only).** Smallest upstream patch that still builds with Motopia `CFLAGS`. Watch autoconf: Broadcom exports `-Werror=uninitialized`, which once caused `#define const` in PCRE `config.h` and broke C++.

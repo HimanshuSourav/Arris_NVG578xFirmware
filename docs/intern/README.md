@@ -14,7 +14,7 @@ The GitHub repo does **not** contain the firmware tree. GitHub rejects files ove
 | --- | --- | --- |
 | 1 | This page + [architecture.md](architecture.md) | Fetch the tarball, list `nvg578.9.5.0h4/`, find `build` and `bcm.patch` |
 | 2 | [architecture.md](architecture.md) build pipeline | Open `targets/NVG578LX_AX/NVG578LX_AX` and search `CONFIG_MOTOPIA_` / `BUILD_HTTPD` / `BUILD_OMCI` |
-| 3 | [security.md](security.md) | Trace `ssl.sh`, OpenSSL makefile, Arris `inetd` |
+| 3 | [security.md](security.md) + [versions.md](versions.md) | Trace `ssl.sh`, OpenSSL makefile, Arris `inetd`; note 9.5.0h4 vs in-tree library ages |
 | 4 | [CONTRIBUTING.md](../../CONTRIBUTING.md) + [pr-checklist.md](pr-checklist.md) | Pick one starter ticket from [security.md](security.md#starter-tickets) and write a one-page notes file under [findings/](findings/) (do not commit secrets) |
 
 ## Getting the source
@@ -80,6 +80,7 @@ That is more useful than “the firmware looks insecure.”
 | --- | --- |
 | [architecture.md](architecture.md) | Tree, build pipeline, profile flags, what to edit |
 | [security.md](security.md) | Threat model, surfaces, starter tickets |
+| [versions.md](versions.md) | 9.5.0h4 identity, library ages, missing CVE fixes |
 | [pr-checklist.md](pr-checklist.md) | Before you open a firmware PR |
 | [findings/](findings/) | Evidence notes (no secrets) |
 | [CONTRIBUTING.md](../../CONTRIBUTING.md) | What we merge |
