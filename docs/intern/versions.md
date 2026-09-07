@@ -15,6 +15,8 @@ Checked against the tree on **2026-09-07**. Re-verify versions in `opensslv.h`, 
 | Profile / SKU | `NVG578LX_AX` (`PROFILE_KERNEL_VER=LINUX_4_1_0`) |
 | Newer OSS drop on that project | **None** as of the date above |
 
+Public mirrors of a **complete flashable Ziply image**, Motopia `webui`/`muhttpd` source, or a second OSS tarball were not found (search of SourceForge, GitHub, Vantiva OSS pages, OpenWrt, Archive.org, 2026-09-07). See [deploy.md](deploy.md#what-is-actually-on-the-public-internet).
+
 This GitHub repo does not contain a newer vendor tree. If SourceForge later adds `nvg578.9.5.0h5` (or similar), this page is stale until someone updates it.
 
 ### Why only one public drop?

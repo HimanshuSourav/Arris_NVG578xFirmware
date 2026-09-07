@@ -17,6 +17,21 @@ This is a feasibility map, not a flash cookbook. Do not write unsigned images on
 
 Checked against a local extract/build on **2026-09-07**. Re-check `fs.install` after your own build before you believe you have a flashable product.
 
+## What is actually on the public internet
+
+Searched **2026-09-07**: SourceForge Arris projects, GitHub code/repos, Vantiva regulatory/OSS, OpenWrt device lists, Archive.org, Ziply help pages, and strings like `bcmNVG578LX_AX_nand`, `9.5.0h4d134`, `nvg578.9.5.0h4.tar.gz`.
+
+| Artifact | Publicly downloadable? | Where |
+| --- | --- | --- |
+| GPL/OSS tarball `nvg578.9.5.0h4.tar.gz` (~797 MB) | **Yes — this is the only drop** | [SourceForge files](https://sourceforge.net/projects/nvg578.arris/files/) (2022-08-10). Same project’s README. No second version folder. |
+| This GitHub repo | README + (in PRs) intern docs / build scripts | [HimanshuSourav/Arris_NVG578xFirmware](https://github.com/HimanshuSourav/Arris_NVG578xFirmware). GitHub search found **no other** NVG578 firmware repos and **no** `bcmNVG578LX_AX_nand` binaries in public code. The 760 MB tree is **not** on GitHub (100 MB file limit). |
+| Flashable ISP image (`.w` / signed Motopia package / `9.5.0h4d134_YouFibre`) | **Not found** | Ziply says [they manage firmware](https://ziplyfiber.com/helpcenter/categories/internet/troubleshooting/router-specifications); they do not publish a download. SURFboard support: the **ISP flashes** these boxes. |
+| Motopia `webui` / `muhttpd` / Dropbear **source** | **Not found** | Not in the SourceForge tarball; not in another public git tree we could name. |
+| OpenWrt (or similar) for NVG578LX/HLX | **No** | Not a supported device. Related Arris NVG threads (e.g. NVG468MQ) hit the same Broadcom/Wi-Fi blob wall. |
+| Later corresponding source from the current vendor | **Request only, not a public files tab** | [Vantiva regulatory / OSS](https://www.vantiva.com/regulatory-information/) lists **NVG578LX1** in the product dropdown and says source is free **on request**: `contact-ch.opensource@vantiva.com`. That is GPL corresponding source, not a promise of Motopia or a signed flash image. |
+
+Do not treat random firmware dumps on forums as official or safe. If you need source for the **binary on a specific box**, ask Vantiva (and/or Ziply) for that **version string** — this 2022 tarball is not guaranteed to match.
+
 ## Why a `.w` file is not “the Ziply firmware”
 
 Vendor README says a successful build lands:
