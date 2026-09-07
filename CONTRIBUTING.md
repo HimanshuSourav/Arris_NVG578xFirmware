@@ -54,4 +54,4 @@ Host/build-environment fixes belong in `scripts/`, not in a one-off note on your
 
 ## Safety
 
-Do not flash experimental images on a household gateway without a recovery plan. Do not commit secrets. Do not weaken isolation “to make a demo work.”
+Do not flash experimental images on a household gateway without a recovery plan. A `.w` from this OSS tree is not a proven Ziply image ([docs/intern/deploy.md](docs/intern/deploy.md)). Do not commit secrets. Do not weaken isolation “to make a demo work.”
