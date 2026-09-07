@@ -147,7 +147,7 @@ There is no single `cp -a axis/arris axis/broadcom`. Wiring is:
 | Arris GPL (`inetd`, arptables) | `axis/arris/` (in the tarball; we do not vendor it in git yet — copy the file into a git-tracked overlay or document a patch series) |
 | SDK files that come from the tarball | A **new** patch applied after `bcm.patch` (preferred) or an addition to `scripts/build-nvg578.sh` |
 | Profile flags | The profile file **after extract**, then capture a patch; or document `make menuconfig` if that is the team process |
-| Generated `.w` images | Never commit |
+| Generated `.w` images | Never commit. A packer success is not a complete Motopia rootfs — see [deploy.md](deploy.md). |
 
 Until we add a git-tracked overlay for `nvg578.9.5.0h4/`, treat intern PRs as: **docs + scripts + a `patches/` directory of quilt/git patches** applied after extract. See [patches/README.md](../../patches/README.md). Do not commit the 760 MB tree.
 
