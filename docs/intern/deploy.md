@@ -209,6 +209,8 @@ There are other empty 4-pin rows and test points (`TP*`) elsewhere; those are ev
 
 If **pin 1 and pin 3 of the same 1×4** beep as a short: that is usually **one net used twice** (often two GND pads), not TX shorted to RX. Confirm it is a real short (**~0–2 Ω**, unpowered) and whether that net also beeps to the shield (GND) or not (more likely a power rail — do not inject 5 V). A continuity beep with the board **powered** is not a short: idle UART lines sit at 3.3 V and can fool the meter. Pins 2 and 4 remaining open to those nets is consistent with a GND–signal–GND–signal layout; it still does **not** name TX vs RX.
 
+On a spare NVG578LX measured **unpowered**, pin 1 and pin 3 of that 1×4 both went to the **shield** (~dead short). Treat **1 and 3 as GND**. Clip USB–UART **GND only** there. Leave adapter **VCC unconnected**. Pins **2 and 4** are the remaining pair (likely TX and RX, order unknown). Watch at **115200 8N1**, **3.3 V TTL**, adapter RX on 2 or 4 — do not program flash.
+
 If the **white fiber pigtail is still plugged into the green GPON cage**, that unit is (or was) the **in-service ONT**. Unplug power, do not stare into the fiber, put the shields/screws/antennas back, and use a spare if you still want UART homework.
 
 If you only want to learn the **software** flash path, stay in `image.c` / profile flags. If you later have a **dead spare** and UART already working, the preconditions below still apply before anyone considers a write.
