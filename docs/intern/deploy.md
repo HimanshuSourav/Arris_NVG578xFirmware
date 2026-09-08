@@ -224,6 +224,27 @@ Trust the **silkscreen on the adapter PCB** (`GND`, `TXD`, `RXD`, `5V`, `3.3V`) 
 
 If you **cut a USB cable** instead of buying a UART dongle, green/white are USB D+/D−, not serial. That will not talk to `ttyS0`.
 
+### Host driver for the USB–UART dongle
+
+The driver is for **your PC**, not the router. It depends on the **chip on the dongle**, printed on the black IC (common: **CH340 / CH341**, **CP2102**, **FT232**, **PL2303**). Cheap red/black/white/green leads are most often **CH340**.
+
+Do **not** download “CH340 driver” packs from random forums.
+
+| Chip on the dongle | Official driver |
+| --- | --- |
+| WCH **CH340 / CH341 / CH9102** | [wch-ic.com downloads](https://www.wch-ic.com/downloads/category/30.html) (Windows: CH341SER) |
+| Silicon Labs **CP210x** | [silabs.com CP210x VCP](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers) |
+| **FTDI** FT232 | [ftdichip.com VCP](https://ftdichip.com/drivers/vcp-drivers/) |
+| **Prolific PL2303** | prolific.com.tw — many clones **never** work with the official driver; prefer a CH340/CP2102 dongle |
+
+**Linux:** usually already installed. Plug in, then `lsusb` and `dmesg | tail`. You want a `/dev/ttyUSB0` or `/dev/ttyACM0`. Add your user to `dialout` (`sudo usermod -aG dialout $USER`, then log out).
+
+**Windows:** Device Manager → Ports (COM & LPT), or a yellow **Other devices** entry. After the official installer, you should see `USB-SERIAL CH340 (COMx)` or similar. In the terminal app: that COM port, **115200 8N1**, no flow control.
+
+**macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
+
+A working driver only gives you a serial **port**. It does not mean the NVG578 console is unmuted. Keep adapter **red/VCC disconnected**.
+
 If the **white fiber pigtail is still plugged into the green GPON cage**, that unit is (or was) the **in-service ONT**. Unplug power, do not stare into the fiber, put the shields/screws/antennas back, and use a spare if you still want UART homework.
 
 If you only want to learn the **software** flash path, stay in `image.c` / profile flags. If you later have a **dead spare** and UART already working, the preconditions below still apply before anyone considers a write.
