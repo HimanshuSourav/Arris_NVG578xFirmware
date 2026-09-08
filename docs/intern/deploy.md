@@ -205,7 +205,7 @@ Near the USB / GPON / reset side, factory left **unpopulated** through-holes (no
 | **J8**, **J7** | 1×4 each (pin 4 marked at the far end) | Same **four nets in parallel** (traces tie matching pins). Two footprints for one UART-style debug, not two consoles. Pin **order is still unknown** in this tree. |
 | **J6** | 2×5 (pins numbered 1–10) | Common **JTAG**-style factory debug. Not a console. Do not treat it as a flash tool. |
 
-There are other empty 4-pin rows and test points (`TP*`) elsewhere; those are even less identified. The Broadcom kernel cmdline (`ttyS0,115200`) does not tell you which header is UART0.
+There are other empty 4-pin rows and test points (`TP*`) elsewhere; those are even less identified. The Broadcom kernel cmdline (`ttyS0,115200`) does not tell you which of the four J7/J8 nets is TX. If J7 and J8 pins are visibly tied 1-to-1, solder **one** 0.1″ header (usually the larger pads), not both. Continuity from a net to the metal shield / mounting screw, **board unpowered**, is how you find GND — not by guessing VCC.
 
 If the **white fiber pigtail is still plugged into the green GPON cage**, that unit is (or was) the **in-service ONT**. Unplug power, do not stare into the fiber, put the shields/screws/antennas back, and use a spare if you still want UART homework.
 
