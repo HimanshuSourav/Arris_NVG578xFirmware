@@ -263,9 +263,22 @@ A 20 s capture on a spare NVG578LX (Prolific `067b:2303` → `/dev/ttyUSB0`, 115
 - `waiting for PMC finish booting` then `0xff` snow, then `PMC rev: 3.1.9.427360 running` / `pmc_init:PMC using DQM mode` — snow is the **clock-change gap**; PMC did finish.
 - Linux starts (`Booting Linux`). Next boot prints **Last RESET due to SW reset, reason 0x00000402** (software reset, not POR/HW pin). Then BTRM `HELO`/`PASS` and CFE again. Secure boot is **accepting** the image; something after Linux starts is requesting reboot (~10 s/cycle).
 
-Do not flash this OSS `.w` to “fix” that. A longer capture from `Booting Linux` until the next CFE banner (panic, watchdog, Motopia) is the next educational log — still no CFE flash commands.
+Do not flash this OSS `.w` to “fix” that. Later listen-only windows (below) already pin the last kernel text; still no CFE flash commands.
 
-A follow-up window (`Booting Linux` → next SWREG dump, 7.8 s) had **no** `panic` / `Oops` / `Watchdog` / `sysmgr`. Linux 4.1.52 mounts NAND/UBI, then Motopia `mtpa_read_mfg_data: Unable to mount /mfg, error = -19` (`ENODEV`, no `/mfg` block device — **that function is not in this OSS drop**). Init **continues**: `print_rst_status` SW reset / `RESET reason: 0x00010000`, `DYING GASP IRQ Initialized` (`board_dg.c` — enable only; a real gasp ISR would also poke `D%G` on UART), then `Registering button 0` GPIO 36 (`board_button.c`). Then UART snow and BTRM. So the cut is **after late `brcm_board_init`** (`board.c`: buttons then `add_proc_files`), or the next module, with **no Oops text**. `/mfg` ENODEV is noisy but not the last line; do not treat it as the proven cause. Do not flash.
+A follow-up window (`Booting Linux` → next SWREG dump, 7.8 s) had **no** `panic` / `Oops` / `Watchdog` / `sysmgr`. Linux 4.1.52 mounts NAND/UBI, then Motopia `mtpa_read_mfg_data: Unable to mount /mfg, error = -19` (`ENODEV`, no `/mfg` block device — **that function is not in this OSS drop**). Init **continues**: `print_rst_status` SW reset / `RESET reason: 0x00010000` (the earlier `0x00000402` was likely UART corruption), `DYING GASP IRQ Initialized` (`board_dg.c` — enable only; a real gasp ISR would also poke `D%G` on UART). `/mfg` ENODEV is noisy but not the last line.
+
+A tighter listen-only window (115200 8N1, DTR/RTS off, no TX) from `Registering button 0` until `0xff` snow was **0.13 s / 122 bytes** — exactly the two `registerBtns` printks, then mark, then BTRM. Same empty result on four cycles. Last text:
+
+```
+Registering button 0 (ffffffc000a07ee0) (bpGpio: 00008024, bpExtIrq:00000000 (0))
+    extIrqIdx:0, gpioNum:36 ACTIVE LOW
+```
+
+That matches Motopia `boardparms_6856.c` **button 0** (WPS): `BP_GPIO_36_AL` (`36 | 0x8000` = `0x8024`), `BP_EXT_INTR_0 | IRQ_LOW_LEVEL` (`BP_EXT_INTR_0` is `0`, and LOW_LEVEL is also `0`, so `bpExtIrq:00000000` is expected). Actions on that button are PRINT + SES on **press**, not reboot. **RESET is button 1** (GPIO 82, `BP_EXT_INTR_1`) on **release**, plus restore-defaults if held 10 s. Do not treat a stuck WPS line as the SW-reset source, and do not disable button/reset checks as a “fix.”
+
+`brcm_board_init` (`board.c`) order is: `board_util_init` (rst + dying gasp) → `init_reset_irq` → **`board_wl_init` (before buttons)** → leds/timers → `board_wd_init` (stub unless `CONFIG_BCM_WATCHDOG_TIMER`) → **`registerBtns`** → `add_proc_files`. So missing `board_wl` / `rdpa` / `gpon` / `ubi` **after** those two lines does not mean WLAN never ran; `board_wl_init` would have printed **before** button 0 if it prints at all. This SKU has no `bp_usExtIntrSesBtnWireless`, so `sesBtn_mapIntr` is silent. RDPA/GPON are later modules: they never load if `registerBtns` does not return.
+
+After the `gpioNum:36` printk, `registerBtns` next does `kthread_run` (`btnhandler0`), `map_external_irq`, then **`Button 0: Registering press hook`** (PRINT, then SES), then `BcmHalMapInterrupt`. None of those hook lines, no `Registering button 1`, no `Oops`, no `request_irq failed`. The cut is **inside `registerBtns` for button 0**, after the polarity printk and before the hook printks (or the UART dies before those bytes flush). That is not “after `add_proc_files`.” Details: [findings/uart-button0-cut.md](findings/uart-button0-cut.md). Do not flash.
 
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 

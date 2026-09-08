@@ -81,7 +81,7 @@ That is more useful than “the firmware looks insecure.”
 | [architecture.md](architecture.md) | Tree, build pipeline, profile flags, what to edit |
 | [security.md](security.md) | Threat model, surfaces, starter tickets |
 | [versions.md](versions.md) | 9.5.0h4 identity, why only one OSS dump, library ages, missing CVE fixes |
-| [deploy.md](deploy.md) | Build vs flash; **what firmware upload actually checks** (CRC/chip id, not Motopia signature) |
+| [deploy.md](deploy.md) | Build vs flash; upload checks; spare UART (cut at Motopia button 0 / GPIO 36) |
 | [pr-checklist.md](pr-checklist.md) | Before you open a firmware PR |
 | [findings/](findings/) | Evidence notes (no secrets) |
 | [CONTRIBUTING.md](../../CONTRIBUTING.md) | What we merge |
