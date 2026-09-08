@@ -256,6 +256,15 @@ After that line, a wall of `��` is common: the PMC may change clocks, so UAR
 
 `WaitPmc` is an **infinite wait** until PMC reports running (`pmc_drv.c`). It is **not** itself a reboot. One pass of `1.8` then `1.5` then `1.0` is **one boot** (voltage rails). A **reboot loop** is that whole block starting over every few seconds (watchdog). Garbage after a single `waiting for PMC finish booting` is a **hang or UART clock change**, not proof of a loop.
 
+A 20 s capture on a spare NVG578LX (Prolific `067b:2303` → `/dev/ttyUSB0`, 115200, DTR/RTS off) showed a **full CFE → PMC → Linux → SW reset loop**, not a stuck SWREG line and not a dead hang after PMC:
+
+- SoC **BCM96856** (this profile is `BRCM_CHIP=6856`, `BRCM_BOARD_ID="96856"` — not 6858).
+- `Dump Current setting of SWREGs` / `1.8 , reg=0x00, val=0xc690` is a **once-per-boot rail table**. Seeing it twice in 20 s means **two boots**, not an inner loop of that one line.
+- `waiting for PMC finish booting` then `0xff` snow, then `PMC rev: 3.1.9.427360 running` / `pmc_init:PMC using DQM mode` — snow is the **clock-change gap**; PMC did finish.
+- Linux starts (`Booting Linux`). Next boot prints **Last RESET due to SW reset, reason 0x00000402** (software reset, not POR/HW pin). Then BTRM `HELO`/`PASS` and CFE again. Secure boot is **accepting** the image; something after Linux starts is requesting reboot (~10 s/cycle).
+
+Do not flash this OSS `.w` to “fix” that. A longer capture from `Booting Linux` until the next CFE banner (panic, watchdog, Motopia) is the next educational log — still no CFE flash commands.
+
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 
 A working driver only gives you a serial **port**. It does not mean the NVG578 console is unmuted. Keep adapter **red/VCC disconnected**.
