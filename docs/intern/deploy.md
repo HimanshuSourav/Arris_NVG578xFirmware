@@ -211,6 +211,19 @@ If **pin 1 and pin 3 of the same 1×4** beep as a short: that is usually **one n
 
 On a spare NVG578LX measured **unpowered**, pin 1 and pin 3 of that 1×4 both went to the **shield** (~dead short). Treat **1 and 3 as GND**. Clip USB–UART **GND only** there. Leave adapter **VCC unconnected**. Pins **2 and 4** are the remaining pair (likely TX and RX, order unknown). Watch at **115200 8N1**, **3.3 V TTL**, adapter RX on 2 or 4 — do not program flash.
 
+**USB–UART pigtail colors are not a spec.** A four-wire lead that is red / black / white / green is often:
+
+| Color | Usual meaning on a *TTL UART* dongle | What to do on this SoC |
+| --- | --- | --- |
+| **Black** | GND | Only wire that should go to J7/J8 pins 1 or 3 |
+| **Red** | VCC — often **5 V from USB** | **Leave disconnected.** 5 V on a 3.3 V pad can kill the chip. |
+| **Green** | TXD *from the adapter* (PC → board) | Leave off until you only want to type; then board RX |
+| **White** | RXD *to the adapter* (board → PC) | This is the one that watches boot text (board TX) |
+
+Trust the **silkscreen on the adapter PCB** (`GND`, `TXD`, `RXD`, `5V`, `3.3V`) over the insulation color. Confirm black to the USB metal shell with the meter (GND). If the module has a **3.3 V / 5 V jumper**, set **3.3 V**; if it is 5 V-only, do not use it on this board.
+
+If you **cut a USB cable** instead of buying a UART dongle, green/white are USB D+/D−, not serial. That will not talk to `ttyS0`.
+
 If the **white fiber pigtail is still plugged into the green GPON cage**, that unit is (or was) the **in-service ONT**. Unplug power, do not stare into the fiber, put the shields/screws/antennas back, and use a spare if you still want UART homework.
 
 If you only want to learn the **software** flash path, stay in `image.c` / profile flags. If you later have a **dead spare** and UART already working, the preconditions below still apply before anyone considers a write.
