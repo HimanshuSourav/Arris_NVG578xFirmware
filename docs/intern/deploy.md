@@ -254,6 +254,8 @@ Readable fragments like `reg=0x00, val=0xc690` at `1.8` / `1.5` / `1.0`, then `T
 
 After that line, a wall of `��` is common: the PMC may change clocks, so UART sampling goes bad, or `WaitPmc` sits there. A healthy next ASCII line would be something like `PMC rev:` or a CFE banner. Leave it 30–60 s. Do not type flash commands. A **3.3 V** USB–TTL dongle (CH340/CP2102) usually cleans the bit errors vs a 5 V Prolific lead.
 
+`WaitPmc` is an **infinite wait** until PMC reports running (`pmc_drv.c`). It is **not** itself a reboot. One pass of `1.8` then `1.5` then `1.0` is **one boot** (voltage rails). A **reboot loop** is that whole block starting over every few seconds (watchdog). Garbage after a single `waiting for PMC finish booting` is a **hang or UART clock change**, not proof of a loop.
+
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 
 A working driver only gives you a serial **port**. It does not mean the NVG578 console is unmuted. Keep adapter **red/VCC disconnected**.
