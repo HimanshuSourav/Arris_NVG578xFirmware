@@ -9,7 +9,7 @@ Assume:
 - **LAN attacker** — untrusted device on Ethernet or Wi-Fi (including guest).
 - **WAN / GPON attacker** — whoever sits on the ISP side (compromised OLT, malicious OMCI, TR-069).
 - **Local admin** — someone with the gateway password (phishing, default creds, CSRF).
-- **Supply chain / image** — unsigned or weakly signed firmware, leftover debug tools.
+- **Supply chain / image** — unsigned or weakly signed firmware, leftover debug tools. Broadcom upload checks CRC/chip id; Motopia’s signed-image check is **not in this tree** ([deploy.md](deploy.md#firmware-upload-and-flashing-checks)).
 
 We are **not** trying to “jailbreak the ISP” as a goal. We **are** trying to make the open userspace harder to abuse and to document residual risk.
 
@@ -108,7 +108,15 @@ Confirm versions in-tree (or on a built rootfs) before filing anything public. S
 
 Kernel and Wi-Fi blobs (`bcmdrivers/broadcom/net/wl/`) are **not** intern starter upgrades. Missing a CVE in NVD ≠ proven remote-root; see [versions.md#reachability-not-every-cve-is-on-the-box](versions.md#reachability-not-every-cve-is-on-the-box).
 
-### 8. Debug and leftover attack surface
+### 8. Firmware upload (in-tree vs missing)
+
+The Ziply LAN “upload firmware” UI is Motopia (`CONFIG_MOTOPIA_FIRMWARE_USER_UPDATE=y`, `CONFIG_MOTOPIA_SIGNED_IMAGE=y`). **That UI and signer are not in the OSS tarball.**
+
+What *is* here is Broadcom’s `cmsImg_validateImage` in `userspace/public/libs/cms_util/image.c`: CRC of the tag and payload (or trailing CRC on a whole `.w`), tag version **7**, and **SoC chip id**. `boardId` is in the tag struct but **not compared**. NAND programming is supposed to be `bcm_flashutil` / `imgif` — **libraries missing**. The kernel on this SoC **refuses NAND whole-image writes** (“no longer support NAND flash in kernel”).
+
+Intern work: document residual risk (CRC ≠ signature); do not weaken the checks that remain. Full table: [deploy.md — Firmware upload and flashing checks](deploy.md#firmware-upload-and-flashing-checks).
+
+### 9. Debug and leftover attack surface
 
 This profile enables **tcpdump**, **iperf3**, **stress**, **sysstat**, high `BCM_DEFAULT_CONSOLE_LOGLEVEL`, `BUILD_DEBUG_TOOLS=y`. Great for bring-up; bad for a shipped CPE. A valid intern project is a **production vs debug** profile split (document which flags to flip, test that NAT/Wi-Fi still work).
 

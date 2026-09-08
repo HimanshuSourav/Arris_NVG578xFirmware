@@ -103,6 +103,7 @@ Examples that matter for security (this SKU):
 | `CONFIG_MOTOPIA_MUHTTPD=y` / `WEBUI=y` / `HTTPS=y` | Arris UI **on** | Real UI is Motopia; source may be missing |
 | `# BUILD_SSHD is not set` / `# BUILD_TELNETD is not set` | Broadcom SSH/telnet **off** | Dropbear is the Motopia SSH path |
 | `BUILD_OMCI=y`, `# BUILD_OMCI_AUTH is not set` | OMCI **on**, auth **off** | ISP-side management with no OMCI auth in this config |
+| `CONFIG_MOTOPIA_SIGNED_IMAGE=y` / `FIRMWARE_USER_UPDATE=y` | Arris wants LAN firmware upload **and** a signed package | **Flags only** in this drop — see [deploy.md flashing checks](deploy.md#firmware-upload-and-flashing-checks) |
 | `CONFIG_MOTOPIA_DOCKER=y` | Docker **on** | Extra kernel attack surface (namespaces, overlay, IPVS) |
 | `BUILD_WLHSPOT=y` | Guest/hotspot framework **on** | Isolation bugs are high impact |
 | `BUILD_DISABLE_EXEC_STACK=y`, `BRCM_USER_SSP=y` | Some hardening **on** | Do not disable these “to make it build” |
@@ -161,3 +162,4 @@ After extract, in this order:
 4. `axis/broadcom/userspace/public/libs/libssl/makefile` — which algorithms are compiled
 5. `axis/arris/gpl/inetd/inetd.c` — super-server for optional network daemons
 6. `axis/broadcom/hostTools/scripts/gendefconfig.d/91arris.conf` — profile → kernel `.config`
+7. `axis/broadcom/userspace/public/libs/cms_util/image.c` — Broadcom firmware CRC/chip-id checks (Motopia UI/signer still missing)
