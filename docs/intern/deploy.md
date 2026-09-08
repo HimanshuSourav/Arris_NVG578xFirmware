@@ -202,7 +202,7 @@ Near the USB / GPON / reset side, factory left **unpopulated** through-holes (no
 
 | Silkscreen | Footprint | Educated guess only |
 | --- | --- | --- |
-| **J8**, **J7** | 1×4 each, square pad = pin 1 | Common UART-style layout (GND / TX / RX / VCC in *some* order). **Order is not documented in this repo.** |
+| **J8**, **J7** | 1×4 each (pin 4 marked at the far end) | Same **four nets in parallel** (traces tie matching pins). Two footprints for one UART-style debug, not two consoles. Pin **order is still unknown** in this tree. |
 | **J6** | 2×5 (pins numbered 1–10) | Common **JTAG**-style factory debug. Not a console. Do not treat it as a flash tool. |
 
 There are other empty 4-pin rows and test points (`TP*`) elsewhere; those are even less identified. The Broadcom kernel cmdline (`ttyS0,115200`) does not tell you which header is UART0.
