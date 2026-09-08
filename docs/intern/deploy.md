@@ -144,8 +144,8 @@ On **NOR** whole-image (`kerSysBcmImageSet`), the trailing **`WFI_TAG`** (also 2
 
 - Requires `wfiVersion` in the `WFI_ANY_VERS` family and **`wfiChipId`** matching the SoC (or family id).
 - Requires **`wfiFlashType == WFI_NOR_FLASH`** (NAND types 128/256/… are defined in `bcmTag.h` but this function will not accept them).
-- On BCM63268 only: **`WFI_FLAG_SUPPORTS_BTRM`** must match OTP secure-boot. **This `#if` does not apply to BCM96858** (this gateway).
-- On 6858 (this chip): if `WFI_FLAG_HAS_PMC` is unset, skip/preserve a 64 KB PMC region at the start of flash.
+- On BCM63268 only: **`WFI_FLAG_SUPPORTS_BTRM`** must match OTP secure-boot. **This `#if` does not apply to BCM96856** (this gateway’s chip).
+- On 6858-class maps (shared with this SDK): if `WFI_FLAG_HAS_PMC` is unset, skip/preserve a 64 KB PMC region at the start of flash. Live UART on a spare printed **BCM96856**.
 
 Userspace `cmsImg_validateImage` for a whole `.w` **only checks the trailing CRC and size**. Chip id / NAND erase-block type in the WFI tag would be enforced later in the **missing** NAND writer, or (for NOR) in the kernel.
 
