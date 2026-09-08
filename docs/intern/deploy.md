@@ -265,6 +265,8 @@ A 20 s capture on a spare NVG578LX (Prolific `067b:2303` → `/dev/ttyUSB0`, 115
 
 Do not flash this OSS `.w` to “fix” that. A longer capture from `Booting Linux` until the next CFE banner (panic, watchdog, Motopia) is the next educational log — still no CFE flash commands.
 
+A follow-up window (`Booting Linux` → next SWREG dump, 7.8 s) had **no** `panic` / `Oops` / `Watchdog` / `sysmgr`. Linux 4.1.52 mounts NAND/UBI, then Motopia `mtpa_read_mfg_data: Unable to mount /mfg, error = -19` (`ENODEV`, no `/mfg` block device — **that function is not in this OSS drop**). Init **continues**: `print_rst_status` SW reset / `RESET reason: 0x00010000`, `DYING GASP IRQ Initialized` (`board_dg.c` — enable only; a real gasp ISR would also poke `D%G` on UART), then `Registering button 0` GPIO 36 (`board_button.c`). Then UART snow and BTRM. So the cut is **after late `brcm_board_init`** (`board.c`: buttons then `add_proc_files`), or the next module, with **no Oops text**. `/mfg` ENODEV is noisy but not the last line; do not treat it as the proven cause. Do not flash.
+
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 
 A working driver only gives you a serial **port**. It does not mean the NVG578 console is unmuted. Keep adapter **red/VCC disconnected**.
