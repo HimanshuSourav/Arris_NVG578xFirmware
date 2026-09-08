@@ -235,7 +235,7 @@ Do **not** download “CH340 driver” packs from random forums.
 | WCH **CH340 / CH341 / CH9102** | [wch-ic.com downloads](https://www.wch-ic.com/downloads/category/30.html) (Windows: CH341SER) |
 | Silicon Labs **CP210x** | [silabs.com CP210x VCP](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers) |
 | **FTDI** FT232 | [ftdichip.com VCP](https://ftdichip.com/drivers/vcp-drivers/) |
-| **Prolific PL2303** | prolific.com.tw — many clones **never** work with the official driver; prefer a CH340/CP2102 dongle |
+| **Prolific PL2303** | Official installer from [Prolific PL2303GS drivers](https://www.prolific.com.tw/en/portfolio-item/pl2303gs/) (Windows **v4.9.0.0**, 2026-03-06). USB id should be **VID 067B**. Many fake cables show Code 10 and **will never work** with this driver — do not install old “crack” PL2303 packs; use a CH340/CP2102 dongle instead. |
 
 **Linux:** usually already installed. Plug in, then `lsusb` and `dmesg | tail`. You want a `/dev/ttyUSB0` or `/dev/ttyACM0`. Add your user to `dialout` (`sudo usermod -aG dialout $USER`, then log out).
 
