@@ -207,6 +207,8 @@ Near the USB / GPON / reset side, factory left **unpopulated** through-holes (no
 
 There are other empty 4-pin rows and test points (`TP*`) elsewhere; those are even less identified. The Broadcom kernel cmdline (`ttyS0,115200`) does not tell you which of the four J7/J8 nets is TX. If J7 and J8 pins are visibly tied 1-to-1, solder **one** 0.1″ header (usually the larger pads), not both. Continuity from a net to the metal shield / mounting screw, **board unpowered**, is how you find GND — not by guessing VCC.
 
+If **pin 1 and pin 3 of the same 1×4** beep as a short: that is usually **one net used twice** (often two GND pads), not TX shorted to RX. Confirm it is a real short (**~0–2 Ω**, unpowered) and whether that net also beeps to the shield (GND) or not (more likely a power rail — do not inject 5 V). A continuity beep with the board **powered** is not a short: idle UART lines sit at 3.3 V and can fool the meter. Pins 2 and 4 remaining open to those nets is consistent with a GND–signal–GND–signal layout; it still does **not** name TX vs RX.
+
 If the **white fiber pigtail is still plugged into the green GPON cage**, that unit is (or was) the **in-service ONT**. Unplug power, do not stare into the fiber, put the shields/screws/antennas back, and use a spare if you still want UART homework.
 
 If you only want to learn the **software** flash path, stay in `image.c` / profile flags. If you later have a **dead spare** and UART already working, the preconditions below still apply before anyone considers a write.
