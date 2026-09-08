@@ -280,6 +280,8 @@ That matches Motopia `boardparms_6856.c` **button 0** (WPS): `BP_GPIO_36_AL` (`3
 
 After the `gpioNum:36` printk, `registerBtns` next does `kthread_run` (`btnhandler0`), `map_external_irq`, then **`Button 0: Registering press hook`** (PRINT, then SES), then `BcmHalMapInterrupt`. None of those hook lines, no `Registering button 1`, no `Oops`, no `request_irq failed`. The cut is **inside `registerBtns` for button 0**, after the polarity printk and before the hook printks (or the UART dies before those bytes flush). That is not “after `add_proc_files`.” On the spare that produced this log, **official ISP firmware was booting until a GPIO/header pin was soldered**; the loop is that joint (bridge, splash, heat, or 5 V through the new pin), not a Ziply image bug and not this OSS `.w`. Unplug the dongle entirely, inspect/desolder, do not factory-reset or flash. Details: [findings/uart-button0-cut.md](findings/uart-button0-cut.md).
 
+A later 15 s listen-only pass on the **same** spare was **not** that Linux loop: **93.7% `0xff`**, BTRM repeating `COM1`/`UB` (~63 times) with **no `PASS`**, then `UBI#` / `TRY2` / `NAN3`, then one CFE banner at ~12 s (`1.0.38-164.255`, Micron id `0x00002cda`) and snow again. No kernel. The fault moved **earlier** (bootrom/NAND/CFE). Repeating `COM1` is not a prompt to send an image — leave TX off. [findings/uart-btrm-nand.md](findings/uart-btrm-nand.md).
+
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 
 A working driver only gives you a serial **port**. It does not mean the NVG578 console is unmuted. Keep adapter **red/VCC disconnected**.

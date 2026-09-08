@@ -87,7 +87,7 @@ Hook printks happen **before** `BcmHalMapInterrupt`, while the button spinlock i
 - Not dying-gasp (`D%G`).  
 - Not `/mfg` as the kill.  
 - Not “WLAN/RDPA/GPON crashed” — those strings would be **after** a successful `brcm_board_init`.  
-- Not a proven GPIO-36 short; not a reason to flash this OSS `.w`.
+- Not a proven short **on GPIO 36 itself** — that is only where the kernel last printed; the soldered pad may be UART or a neighbor. Not a reason to flash this OSS `.w`.
 
 ## Optional next listen-only grep
 

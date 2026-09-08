@@ -10,4 +10,5 @@ Examples: image inventory (setuid, listeners, whether `dropbear`/`docker`/`muhtt
 
 Logged:
 
-- [uart-button0-cut.md](uart-button0-cut.md) — spare NVG578LX listen-only UART dies inside `registerBtns` after GPIO 36 (WPS), before RDPA/GPON; not a flash fix.
+- [uart-button0-cut.md](uart-button0-cut.md) — earlier listen-only: official firmware died inside `registerBtns` after GPIO 36 (WPS), after a soldered debug pin.
+- [uart-btrm-nand.md](uart-btrm-nand.md) — later listen-only: same spare no longer reaches Linux; BTRM `COM1`/`UB` without `PASS`, NAND `TRY2`/`NAN3`, one late CFE banner. Do not UART-download or flash.
