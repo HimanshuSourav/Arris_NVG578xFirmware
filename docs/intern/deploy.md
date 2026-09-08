@@ -246,6 +246,8 @@ python -m pip install pyserial
 python -m serial.tools.miniterm COM5 115200
 ```
 
+**Garbage** (`����`) means the port is open but the bytes are not 115200 ASCII: try the **other** of pins 2/4, keep **green unconnected**, confirm black is GND, then try `9600` / `57600`. A **blank** window is a muted console, which is different. A Prolific lead may be **5 V TTL or RS-232**, which also looks like junk and can damage 3.3 V pins — stop if the board gets hot.
+
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 
 A working driver only gives you a serial **port**. It does not mean the NVG578 console is unmuted. Keep adapter **red/VCC disconnected**.
