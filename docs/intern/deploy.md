@@ -239,7 +239,12 @@ Do **not** download “CH340 driver” packs from random forums.
 
 **Linux:** usually already installed. Plug in, then `lsusb` and `dmesg | tail`. You want a `/dev/ttyUSB0` or `/dev/ttyACM0`. Add your user to `dialout` (`sudo usermod -aG dialout $USER`, then log out).
 
-**Windows:** Device Manager → Ports (COM & LPT), or a yellow **Other devices** entry. After the official installer, you should see `USB-SERIAL CH340 (COMx)` or similar. In the terminal app: that COM port, **115200 8N1**, no flow control.
+**Windows:** Device Manager → Ports (COM & LPT), or a yellow **Other devices** entry. After the official installer, you should see `USB-SERIAL CH340 (COMx)` or `Prolific USB-to-Serial Comm Port (COMx)`. In PuTTY: that COM port, **115200 8N1**, no flow control. Or PowerShell, using the **same** `python` that will run miniterm (Espressif’s copy often has no modules yet):
+
+```powershell
+python -m pip install pyserial
+python -m serial.tools.miniterm COM5 115200
+```
 
 **macOS:** recent versions often attach CH340/CP2102/FTDI as `/dev/cu.usbserial-*` with no extra package. If the dongle is invisible, use the vendor page above — not a random `.pkg`.
 
