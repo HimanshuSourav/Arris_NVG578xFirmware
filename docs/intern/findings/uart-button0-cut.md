@@ -1,8 +1,10 @@
 # UART cut at Motopia button 0 (GPIO 36)
 
-Listen-only evidence from a spare NVG578LX running **official ISP firmware**. Not a flash cookbook. Do not send TX, do not issue CFE commands, do not disable reset/button handling to “make it boot.”
+Listen-only evidence from a spare running **official Ziply firmware**. Not a flash cookbook. Do not send TX, do not issue CFE commands, do not factory-reset, do not flash this OSS `.w`.
 
-The same unit **booted normally until a GPIO/header pin was soldered** (UART J7/J8-style pad). After that joint, Linux died at the two button-0 printks and SW-reset looped. Treat the cause as the solder (bridge to GND or a neighbor, splash onto another GPIO, pad/SoC heat, or 5 V from the USB–UART through the new pin)—not missing Motopia source and not a factory-reset / NAND-image problem.
+The same unit **booted normally until serial-port pins were soldered** (UART J7/J8-style pad). After that joint, Linux died inside Motopia `registerBtns` at GPIO 36 (WPS) and SW-reset looped. Treat the cause as the solder (bridge to GND or a neighbor, splash onto another GPIO, pad/SoC heat, or 5 V from the USB–UART through the new pin)—not missing Motopia source and not a NAND-image problem.
+
+Listen-only session (chat history): [cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a](https://cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a). Intern docs live in [PR #2](https://github.com/HimanshuSourav/Arris_NVG578xFirmware/pull/2).
 
 ## Capture
 
@@ -88,14 +90,12 @@ Hook printks happen **before** `BcmHalMapInterrupt`, while the button spinlock i
 - Not `/mfg` as the kill.  
 - Not “WLAN/RDPA/GPON crashed” — those strings would be **after** a successful `brcm_board_init`.  
 - Not a proven short **on GPIO 36 itself** — that is only where the kernel last printed; the soldered pad may be UART or a neighbor. Not a reason to flash this OSS `.w`.
+- Disconnecting Motopia GPIO/button leads **did not** stop the reboot loop. Linux still printed `Registering button 0` / `gpioNum:36 ACTIVE LOW` and died there. The WPS pad is where the printk stops, not a confirmed stuck IRQ you can unplug around.
 
-## Optional next listen-only grep
+## `brcm_board_init` through snow (done)
 
-Same settings. If anything appears after `gpioNum:36`, it narrows the call:
+Same settings. Window starts at `brcmboard: brcm_board_init entry` (the prefix, not only the two death lines) until `0xff` snow. **0.19 s**, 781 bytes of log.
 
-- `Button 0: Registering` / `press hook` — reached hook install  
-- `Registering button 1` — finished button 0, including `BcmHalMapInterrupt`  
-- `ERROR could not start kthread` / `request_irq failed` / `Invalid External Interrupt`  
-- `WPS Button Pressed` / `Restarting System` / `***reset button press`
+**Not useful for a later cut.** Still **no** `SES:`, **no** `request_irq failed`, **no** `Registering button 1`. Prefix is the known block (`/mfg` `-19`, `print_rst_status`, dying-gasp enable, `map_hw_timer_interrupt` 10–13), then the same two `registerBtns` lines, then snow. Listen-only greps for a third kernel line are exhausted; stop adding UART experiments. Still no TX.
 
-Empty is still useful: it keeps the cut inside button 0 before hook text. Still no TX.
+Later the same spare no longer always reaches Linux at all — see [uart-btrm-nand.md](uart-btrm-nand.md).

@@ -10,5 +10,5 @@ Examples: image inventory (setuid, listeners, whether `dropbear`/`docker`/`muhtt
 
 Logged:
 
-- [uart-button0-cut.md](uart-button0-cut.md) — earlier listen-only: official firmware died inside `registerBtns` after GPIO 36 (WPS), after a soldered debug pin.
-- [uart-btrm-nand.md](uart-btrm-nand.md) — later listen-only: same spare no longer reaches Linux; BTRM `COM1`/`UB` without `PASS`, NAND `TRY2`/`NAN3`, one late CFE banner. Do not UART-download or flash.
+- [uart-button0-cut.md](uart-button0-cut.md) — earlier listen-only on **official Ziply firmware**: box booted until serial pins were soldered, then died inside Motopia `registerBtns` GPIO 36 (WPS). GPIO unplug did not help. `brcm_board_init`→snow still has no `SES:` / `request_irq failed` / `Registering button 1`.
+- [uart-btrm-nand.md](uart-btrm-nand.md) — later listen-only: BTRM `COM1`/`UB` without `PASS`, NAND `TRY2`/`NAN3`, one late CFE; a follow-up live listen still saw CFE/PMC and `Board Id: NVG578HLX`. Do not UART-download, factory-reset, or flash.

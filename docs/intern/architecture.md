@@ -163,4 +163,4 @@ After extract, in this order:
 5. `axis/arris/gpl/inetd/inetd.c` — super-server for optional network daemons
 6. `axis/broadcom/hostTools/scripts/gendefconfig.d/91arris.conf` — profile → kernel `.config`
 7. `axis/broadcom/userspace/public/libs/cms_util/image.c` — Broadcom firmware CRC/chip-id checks (Motopia UI/signer still missing)
-8. `bcmdrivers/opensource/char/board/bcm963xx/impl1/board.c` `brcm_board_init` — util → `board_wl_init` → **`registerBtns`** → proc; live UART on a spare dies in button 0 (GPIO 36), see [deploy.md](deploy.md) / [findings/uart-button0-cut.md](findings/uart-button0-cut.md)
+8. `bcmdrivers/opensource/char/board/bcm963xx/impl1/board.c` `brcm_board_init` — util → `board_wl_init` → **`registerBtns`** → proc; listen-only on a Ziply spare first died in button 0 (GPIO 36), later often in BTRM/NAND before Linux — [deploy.md](deploy.md), [findings/uart-button0-cut.md](findings/uart-button0-cut.md), [findings/uart-btrm-nand.md](findings/uart-btrm-nand.md)
