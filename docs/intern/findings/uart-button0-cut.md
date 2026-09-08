@@ -1,6 +1,8 @@
 # UART cut at Motopia button 0 (GPIO 36)
 
-Listen-only evidence from a spare NVG578LX. Not a flash cookbook. Do not send TX, do not issue CFE commands, do not disable reset/button handling to “make it boot.”
+Listen-only evidence from a spare NVG578LX running **official ISP firmware**. Not a flash cookbook. Do not send TX, do not issue CFE commands, do not disable reset/button handling to “make it boot.”
+
+The same unit **booted normally until a GPIO/header pin was soldered** (UART J7/J8-style pad). After that joint, Linux died at the two button-0 printks and SW-reset looped. Treat the cause as the solder (bridge to GND or a neighbor, splash onto another GPIO, pad/SoC heat, or 5 V from the USB–UART through the new pin)—not missing Motopia source and not a factory-reset / NAND-image problem.
 
 ## Capture
 
@@ -71,6 +73,13 @@ Immediately after the `gpioNum` line, still in the button-0 loop:
 Hook printks happen **before** `BcmHalMapInterrupt`, while the button spinlock is held with IRQs off. If those lines are truly never issued, the cut is **`kthread_run` / timer / `map_external_irq`**, not a WPS press ISR. If they were issued but UART died before flush, `BcmHalMapInterrupt` on a **level-low** GPIO 36 that is already asserted could run `btnPressIsr` immediately — still PRINT+SES, not `kernel_restart`.
 
 `btnHook_Reset` (` *** Restarting System ***` + `kernel_restart`) is only registered when **button 1** is processed. That loop never printed.
+
+## If it booted before the solder
+
+1. Unplug **all** USB–UART wires (not only TX). Power with the original adapter. If LEDs/LAN come up like before, the dongle was loading the new pin — do not reconnect a 5 V Prolific lead.
+2. If it still loops: power off. Under magnification, look for bridges (especially a signal pin to GND or to the next pad) and solder balls on nearby `TP*` / GPIO. Continuity, **unpowered**: a TX/RX pad must not be a dead short to the shield unless it was already GND.
+3. Desolder that pin/header if you can without more heat; clean flux. Do not solder GPIO 36 / WPS to “fix” the log line.
+4. Do not factory-reset (Linux never registers that hook). Do not flash this OSS `.w`.
 
 ## What this does *not* prove
 
