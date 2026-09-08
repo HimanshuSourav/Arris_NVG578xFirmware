@@ -170,6 +170,32 @@ Bootrom/OTP is a separate layer (`SECURE_BOOT_ARCH=GEN3`, `BTRM_BOOT_ONLY=y`). D
 
 Do not add patches that skip CRC or chip-id checks. Do not document how to craft a matching tag. If you dump an ISP rootfs you are allowed to inspect, a useful finding is whether `/sbin/fwmgr` and a Motopia signer binary are actually on the box — write that under [findings/](findings/), no keys.
 
+## Should I open the box for a serial port? (education)
+
+**Watching boot logs on a spare you own can be educational. Opening the household fiber gateway to flash this OSS tree is not.** Serial does not fill in missing Motopia source, a signed Ziply `.w`, or a safe recover-from-brick story.
+
+This profile’s kernel command line (after extract) is:
+
+`BCM_KERNEL_CMDLINE="console=ttyS0,115200 earlyprintk debug irqaffinity=0"`
+
+So **if** Linux on that unit still prints a console, it would typically be **UART0 at 115200 8N1**. ISP images often mute that, lock CFE, or sit behind GEN3 bootrom. Seeing which of those is true on *your* unit is the useful lesson. Finding pads and wiring a **3.3 V** USB–UART adapter (GND first, never 5 V into SoC pins) is standard hardware homework — this repo does **not** have a verified NVG578 pad map, and guessing pads can kill the board.
+
+### Do this only if
+
+- The gateway is **yours** (bought / surplus). Many Ziply units are **ISP-owned**; opening them can violate the equipment agreement even for “learning.”
+- It is **not** the in-service ONT for someone’s internet. Clips, antennas, and the GPON cage are easy to break; there is no public unbrick write-up for this SKU.
+- You accept **landfill risk**. Treat the session as read-only: boot messages, whether a login prompt appears, whether CFE is silent. Do not program flash, do not paste GPON passwords / Wi-Fi keys / certs into git or chat.
+
+### What serial will not give you
+
+| Hope | Reality with this tree |
+| --- | --- |
+| “I’ll flash our packed `.w` from CFE.” | Still a bad idea: incomplete rootfs, signed-image / OTP unknown, wrong NAND geometry bricks. See the table at the top of this page. |
+| “UART means I have the Motopia upload path.” | No. Upload/signer are still missing from OSS; serial is just another console. |
+| “I can copy a pinout from the internet and it’s done.” | No verified public NVG578LX UART photo lives in this project. Wrong voltage or TX/RX swap is a common dead board. |
+
+If you only want to learn the **software** flash path, stay in `image.c` / profile flags. If you later have a **dead spare** and UART already working, the preconditions below still apply before anyone considers a write.
+
 ## If you still want a hardware experiment (later)
 
 Preconditions, not steps:

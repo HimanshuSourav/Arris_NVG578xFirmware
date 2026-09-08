@@ -15,7 +15,7 @@ The GitHub repo does **not** contain the firmware tree. GitHub rejects files ove
 | 1 | This page + [architecture.md](architecture.md) | Fetch the tarball, list `nvg578.9.5.0h4/`, find `build` and `bcm.patch` |
 | 2 | [architecture.md](architecture.md) build pipeline | Open `targets/NVG578LX_AX/NVG578LX_AX` and search `CONFIG_MOTOPIA_` / `BUILD_HTTPD` / `BUILD_OMCI` |
 | 3 | [security.md](security.md) + [versions.md](versions.md) | Trace `ssl.sh`, OpenSSL makefile, Arris `inetd`; note 9.5.0h4 vs in-tree library ages |
-| 4 | [CONTRIBUTING.md](../../CONTRIBUTING.md) + [pr-checklist.md](pr-checklist.md) + [deploy.md](deploy.md) (incl. [upload/flash checks](deploy.md#firmware-upload-and-flashing-checks)) | Pick a starter ticket; **do not** plan to flash an ISP gateway |
+| 4 | [CONTRIBUTING.md](../../CONTRIBUTING.md) + [pr-checklist.md](pr-checklist.md) + [deploy.md](deploy.md) (incl. [upload/flash checks](deploy.md#firmware-upload-and-flashing-checks) and [serial](deploy.md#should-i-open-the-box-for-a-serial-port-education)) | Pick a starter ticket; **do not** open the in-service ONT to flash |
 
 ## Getting the source
 
@@ -61,7 +61,7 @@ Example names: `bcmNVG578LX_AX_nand_cferom_fs_image_128_puresqubi.w`
 
 ## Safety (non-negotiable)
 
-- Do not flash an experimental image on a production household gateway without a recovery plan (serial console / known-good image). See [deploy.md](deploy.md): a successful `.w` build is **not** a complete Ziply firmware.
+- Do not flash an experimental image on a production household gateway. Opening a **spare you own** to *watch* UART boot logs can be educational; opening the in-service ONT or programming flash is not the intern path. See [deploy.md](deploy.md#should-i-open-the-box-for-a-serial-port-education).
 - Do not commit keys, ISP credentials, or customer dumps.
 - Do not “fix” TLS by disabling verification or turning HTTP-only back on.
 - Changes that weaken isolation (guest Wi-Fi, firewall, Docker) need a written threat note in the PR.
