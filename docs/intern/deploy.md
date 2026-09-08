@@ -178,7 +178,7 @@ This profile’s kernel command line (after extract) is:
 
 `BCM_KERNEL_CMDLINE="console=ttyS0,115200 earlyprintk debug irqaffinity=0"`
 
-So **if** Linux on that unit still prints a console, it would typically be **UART0 at 115200 8N1**. ISP images often mute that, lock CFE, or sit behind GEN3 bootrom. Seeing which of those is true on *your* unit is the useful lesson. Finding pads and wiring a **3.3 V** USB–UART adapter (GND first, never 5 V into SoC pins) is standard hardware homework — this repo does **not** have a verified NVG578 pad map, and guessing pads can kill the board.
+So **if** Linux on that unit still prints a console, it would typically be **UART0 at 115200 8N1**. ISP images often mute that, lock CFE, or sit behind GEN3 bootrom. Seeing which of those is true on *your* unit is the useful lesson. Finding pads and wiring a **3.3 V** USB–UART adapter (GND first, never 5 V into SoC pins) is standard hardware homework. This OSS tree still has **no schematic pinout**. Wrong voltage or TX/RX swap can kill the board.
 
 ### Do this only if
 
@@ -192,7 +192,22 @@ So **if** Linux on that unit still prints a console, it would typically be **UAR
 | --- | --- |
 | “I’ll flash our packed `.w` from CFE.” | Still a bad idea: incomplete rootfs, signed-image / OTP unknown, wrong NAND geometry bricks. See the table at the top of this page. |
 | “UART means I have the Motopia upload path.” | No. Upload/signer are still missing from OSS; serial is just another console. |
-| “I can copy a pinout from the internet and it’s done.” | No verified public NVG578LX UART photo lives in this project. Wrong voltage or TX/RX swap is a common dead board. |
+| “I can copy a pinout from the internet and it’s done.” | This tree has **no schematic**. Photos of an NVG578LX show **unpopulated** headers (labels below). That is not a pin map. |
+
+### What the PCB typically shows (NVG578LX)
+
+Rear I/O on this SKU (left → right as you look at the port edge): two grey **RJ11** (voice), four **Ethernet** (often mixed black/yellow), **USB**, green **GPON**, red **reset**, power switch, DC jack. That matches the Ziply gateway, not a generic Wi-Fi AP.
+
+Near the USB / GPON / reset side, factory left **unpopulated** through-holes (no pins soldered):
+
+| Silkscreen | Footprint | Educated guess only |
+| --- | --- | --- |
+| **J8**, **J7** | 1×4 each, square pad = pin 1 | Common UART-style layout (GND / TX / RX / VCC in *some* order). **Order is not documented in this repo.** |
+| **J6** | 2×5 (pins numbered 1–10) | Common **JTAG**-style factory debug. Not a console. Do not treat it as a flash tool. |
+
+There are other empty 4-pin rows and test points (`TP*`) elsewhere; those are even less identified. The Broadcom kernel cmdline (`ttyS0,115200`) does not tell you which header is UART0.
+
+If the **white fiber pigtail is still plugged into the green GPON cage**, that unit is (or was) the **in-service ONT**. Unplug power, do not stare into the fiber, put the shields/screws/antennas back, and use a spare if you still want UART homework.
 
 If you only want to learn the **software** flash path, stay in `image.c` / profile flags. If you later have a **dead spare** and UART already working, the preconditions below still apply before anyone considers a write.
 
