@@ -2,7 +2,7 @@
 
 Listen-only, **official Ziply firmware**, same spare that used to reach Linux (and that first died in Motopia `registerBtns` GPIO 36 after serial pins were soldered). Not a flash cookbook. Do **not** type at CFE. Do **not** send a UART/BTRM download (repeating `COM1` is not an invitation to feed an image). Do not factory-reset. Do not flash.
 
-UART homework (chat history): [cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a](https://cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a).
+**Closed 2026-09-08.** Same spare: soldering UART pins caused the failure mode (first Motopia GPIO-36 loop, then this earlier BTRM/NAND path). Not GPON light, not a Ziply image bug, not something to flash. UART homework parked. Chat: [bc-a9d7cc40](https://cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a).
 
 ## Capture
 
@@ -52,7 +52,7 @@ Repeating `COM1` is bootrom UART chatter (often a download/wait or NAND-fail fal
 
 1. Unplug **all** USB–UART leads. Original PSU only. If LAN/Power LEDs still never settle, the dongle is not the only load.
 2. Inspect/desolder the joint. Do not add solder. Do not probe NAND pins.
-3. UART homework is **parked**. Unplug the dongle. Do not add another listen unless you are only checking that LEDs recovered after desolder. Still no TX.
+3. UART homework is **closed**. Unplug the dongle. No further listen-only unless checking LEDs after desolder. Still no TX.
 4. Do not factory-reset. Do not flash. Do not type CFE.
 
 Related: [uart-button0-cut.md](uart-button0-cut.md) (older, later-in-boot cut).

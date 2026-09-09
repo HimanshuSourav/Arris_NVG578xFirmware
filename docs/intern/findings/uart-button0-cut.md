@@ -4,7 +4,7 @@ Listen-only evidence from a spare running **official Ziply firmware**. Not a fla
 
 The same unit **booted normally until serial-port pins were soldered** (UART J7/J8-style pad). After that joint, Linux died inside Motopia `registerBtns` at GPIO 36 (WPS) and SW-reset looped. Treat the cause as the solder (bridge to GND or a neighbor, splash onto another GPIO, pad/SoC heat, or 5 V from the USB–UART through the new pin)—not missing Motopia source and not a NAND-image problem.
 
-Listen-only session (chat history): [cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a](https://cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a). Intern docs live in [PR #2](https://github.com/HimanshuSourav/Arris_NVG578xFirmware/pull/2).
+**Closed 2026-09-08.** Soldering the UART pins put this spare into that mode. Listen-only homework is done: no TX, no CFE, no factory-reset, no OSS `.w` flash, no kernel “skip button 0” patch. Next step is hardware only (unplug dongle, inspect/desolder). Chat: [bc-a9d7cc40](https://cursor.com/agents/bc-a9d7cc40-d472-452e-85f9-af84ef825f7a). Intern docs: [PR #2](https://github.com/HimanshuSourav/Arris_NVG578xFirmware/pull/2).
 
 ## Capture
 
